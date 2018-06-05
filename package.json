@@ -1,0 +1,27 @@
+{
+  "name": "craps",
+  "version": "1.0.0",
+  "description": "Web based multiple player craps game",
+  "main": "app.js",
+  "dependencies": {
+    "eslint": "^4.19.1",
+    "immutable": "^3.8.2",
+    "socketio": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "craps",
+    "web",
+    "based",
+    "html",
+    "open",
+    "source",
+    "websocket",
+    "multiplayer"
+  ],
+  "author": "Austin Peters",
+  "license": "WTFPL"
+}
