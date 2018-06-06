@@ -1,18 +1,17 @@
+import * as BetController from './controllers/betting';
+import * as TableController from './controllers/table';
+
 const server = require('http').createServer()
 const io = require('socket.io')(server)
 
 io.on('connection', function (client) {
-  client.on('register', handleRegister)
+  client.on('table.join', TableController.join)
 
-  client.on('join', handleJoin)
+  client.on('table.leave', TableController.leave)
 
-  client.on('leave', handleLeave)
+  client.on('bet.add', BetController.add)
 
-  client.on('message', handleMessage)
-
-  client.on('chatrooms', handleGetChatrooms)
-
-  client.on('availableUsers', handleGetAvailableUsers)
+  client.on('bet.remove', BetController.remove)
 
   client.on('disconnect', function () {
     console.log('client disconnect...', client.id)
@@ -21,6 +20,7 @@ io.on('connection', function (client) {
 
   client.on('error', function (err) {
     console.log('received error from client:', client.id)
+    console.log(`client info: ${client}`);
     console.log(err)
   })
 })
