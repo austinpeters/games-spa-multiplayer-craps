@@ -2,10 +2,13 @@
   "name": "craps",
   "version": "1.0.0",
   "description": "Web based multiple player craps game",
-  "main": "src/app.js",
+  "main": "src/server/app.js",
   "dependencies": {
     "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.9.1",
+    "express": "^4.16.3",
     "immutable": "^3.8.2",
+    "react": "^16.4.0",
     "socketio": "^1.0.0"
   },
   "devDependencies": {
@@ -14,11 +17,11 @@
     "babel-preset-stage-2": "^6.24.1"
   },
   "scripts": {
-    "start": "babel-node ./src/app.js --presets es2015,stage-2",
+    "start": "babel-node ./src/server/app.js --presets es2015,stage-2",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type" : "git",
+    "type": "git",
     "url": "https://github.com/austinpeters/games-spa-multiplayer-craps"
   },
   "keywords": [

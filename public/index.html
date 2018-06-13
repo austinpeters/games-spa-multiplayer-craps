@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+        <script src="/assets/js/client.js"></script>
+    </head>
+    <body>
+        <p>
+            <select id="action-type">
+                <option value="dice.roll">dice.roll</option>
+                <option value="bet.add">bet.add</option>
+                <option value="bet.remove">bet.remove</option>
+                <option value="table.join">table.join</option>
+                <option value="table.leave">table.leave</option>
+            </select>
+            <input id="action-payload" type="text" size="60" />
+            <input type="button" onclick="actionTrigger()" value="Generate Action" />
+        </p>
+        <p>
+            <span>current roller:</span> <input id="roller" size="10" />
+            <span>current roll: </span> <input id="dice" size="4" />
+            <span>current point: </span> <input id="point" size="4" />
+            <br />
+            <textarea id="output" cols="50" rows="30" ></textarea>
+        </p>
+        <input type="button" onclick="document.getElementById('output').value = '';" value="Clear Output" />
+    </body>
+</html>

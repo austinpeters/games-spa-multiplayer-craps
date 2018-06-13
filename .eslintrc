@@ -1,3 +1,10 @@
 {
-    "extends": "react-app"
+  "parserOptions": {
+      "ecmaVersion": 8,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true
+      }
+  },
+  "extends": ["plugin:react/recommended"]
 }
