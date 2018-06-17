@@ -9,14 +9,24 @@
     "express": "^4.16.3",
     "immutable": "^3.8.2",
     "react": "^16.4.0",
+    "react-dom": "^16.4.1",
+    "react-scripts": "^1.1.4",
     "socketio": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1"
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.2",
+    "minify": "^3.0.5",
+    "minifyify": "^7.3.5",
+    "react-app-rewired": "^1.5.2",
+    "watchify": "^3.11.0"
   },
   "scripts": {
+    "react-build": "browserify ./src/client/index.js -d -p [minifyify --map public/assets/js/react-bundle.js.map --output public/assets/js/react-bundle.js.map] > public/assets/js/react-bundle.js",
     "start": "babel-node ./src/server/app.js --presets es2015,stage-2",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -35,5 +45,18 @@
     "multiplayer"
   ],
   "author": "Austin Peters",
-  "license": "WTFPL"
+  "license": "WTFPL",
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "react",
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  }
 }

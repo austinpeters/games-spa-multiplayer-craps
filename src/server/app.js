@@ -1,5 +1,6 @@
 import express from 'express';
 import AppController from './controllers/app';
+import * as Constants from '../shared/constants';
 import * as DiceController from './controllers/dice';
 import * as BetController from './controllers/betting';
 import * as TableController from './controllers/table';
@@ -8,12 +9,14 @@ const app = express();
 const http = require('http').Server(app);
 
 app.use(express.static('public'));
+app.use('/react/', express.static('src/client/build'));
+
 const io = require('socket.io')(http);
 const appState = new AppController();
 
 io.of('/websocket').on('connection', function (socket) {
 
-  let session = {};
+  const session = {};
   session.socket = socket;
 
   appState.addPlayer(session);
@@ -21,23 +24,23 @@ io.of('/websocket').on('connection', function (socket) {
 
   console.log("New connection!");
 
-  socket.on('bet.add', function(payload) {
-    BetController.add(appState, session, payload);
+  socket.on(Constants.SOCKET_EVENTS.BET_ADD, function(bet) {
+    BetController.add(appState, session, bet);
   });
 
-  socket.on('bet.remove', function(payload) {
-    BetController.remove(appState, session, payload);
+  socket.on(Constants.SOCKET_EVENTS.BET_REMOVE, function(bet) {
+    BetController.remove(appState, session, bet);
   });
 
-  socket.on('dice.roll', function(payload) {
-    DiceController.roll(appState, session, payload);
+  socket.on(Constants.SOCKET_EVENTS.DICE_ROLL, function() {
+    DiceController.roll(appState, session);
   });
 
-  socket.on('table.join', function(payload) {
+  socket.on(Constants.SOCKET_EVENTS.TABLE_JOIN, function(payload) {
     TableController.join(appState, session, payload);
   });
 
-  socket.on('table.leave', function(payload) {
+  socket.on(Constants.SOCKET_EVENTS.TABLE_LEAVE, function(payload) {
     TableController.leave(appState, session, payload);
   });
 

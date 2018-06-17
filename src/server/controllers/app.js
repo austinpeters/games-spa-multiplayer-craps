@@ -1,5 +1,6 @@
 
 import ArrayUtils from '../../shared/helpers/ArrayUtils'
+import * as Constants from '../../shared/constants';
 
 export default class AppController {
     constructor() {
@@ -17,25 +18,45 @@ export default class AppController {
     setCurrentRoller(session) {
         console.log(`Current roller set to: ${session.socket.id}`);
         this.currentRollerId = session.socket.id;
-        session.socket.emit('roller.changed', {'playerId': this.currentRollerId});
-        session.socket.broadcast.emit('roller.changed', {'playerId': this.currentRollerId});
+        const payload = {playerId: this.currentRollerId};
+
+        session.socket.emit(
+            Constants.SOCKET_EVENTS.ROLLER_CHANGED, 
+            payload
+        );
+        session.socket.broadcast.emit(
+            Constants.SOCKET_EVENTS.ROLLER_CHANGED, 
+            payload
+        );
     };
     setNextRoller(session) {
         // Reset indexes
         this.playerSessions = this.playerSessions.filter(socket => true);
         this.currentRollerId = ArrayUtils.next(this.playerSessions, session).socket.id;
+        const payload = {playerId: this.currentRollerId};
         
-        const payload = {'playerId': this.currentRollerId};
-        session.socket.emit('roller.changed', payload);
-        session.socket.broadcast.emit('roller.changed', payload);
+        session.socket.emit(
+            Constants.SOCKET_EVENTS.ROLLER_CHANGED, 
+            payload
+        );
+        session.socket.broadcast.emit(
+            Constants.SOCKET_EVENTS.ROLLER_CHANGED, 
+            payload
+        );
     };
 
     getCurrentDice () {return this.currentDice};
     setCurrentDice(session, dice) {
         this.currentDice = dice;
-        const payload = {'dice': this.currentDice};
-        session.socket.emit('dice.rolled', payload);
-        session.socket.broadcast.emit('dice.rolled', payload);
+        const payload = this.currentDice.serialize();
+        session.socket.emit(
+            Constants.SOCKET_EVENTS.DICE_ROLLED,
+            payload
+        );
+        session.socket.broadcast.emit(
+            Constants.SOCKET_EVENTS.DICE_ROLLED,
+            payload
+        );
     };
 
     getPointNumber() {return this.pointNumber;};
@@ -43,8 +64,15 @@ export default class AppController {
     setPointNumber(session, newPoint) {
         this.pointNumber = newPoint
         const payload = {pointNumber: this.pointNumber};
-        session.socket.emit('point.changed', payload);
-        session.socket.broadcast.emit('point.changed', payload);
+
+        session.socket.emit(
+            Constants.SOCKET_EVENTS.POINT_CHANGED,
+            payload
+        );
+        session.socket.broadcast.emit(
+            Constants.SOCKET_EVENTS.POINT_CHANGED,
+            payload
+        );
     };
 
     addPlayer(session) {
@@ -66,7 +94,14 @@ export default class AppController {
             currentRollerId: this.currentRollerId,
             pointNumber: this.pointNumber
         };
-        session.socket.emit('app.state', appState);
-        session.socket.broadcast.emit('app.state', appState);
+        
+        session.socket.emit(
+            Constants.SOCKET_EVENTS.APP_NEW_STATE,
+            appState
+        );
+        session.socket.broadcast.emit(
+            Constants.SOCKET_EVENTS.APP_NEW_STATE,
+            appState
+        );
     };
 };
