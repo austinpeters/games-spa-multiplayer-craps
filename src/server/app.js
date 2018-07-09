@@ -4,6 +4,8 @@ import * as Constants from '../shared/constants';
 import * as DiceController from './controllers/dice';
 import * as BetController from './controllers/betting';
 import * as TableController from './controllers/table';
+import Player from '../shared/models/player';
+import { Bets } from '../shared/models/bets';
 
 const app = express();
 const http = require('http').Server(app);
@@ -17,12 +19,19 @@ const appState = new AppController();
 io.of('/websocket').on('connection', function (socket) {
 
   const session = {};
+  const player = new Player({
+    socket,
+    displayName: '',
+    bets: new Bets()
+  });
   session.socket = socket;
 
   appState.addPlayer(session);
-  appState.broadcastAppState(session);
+  appState.sendAppState(session);
 
-  console.log("New connection!");
+  socket.on(Constants.SOCKET_EVENTS.APP_GET_STATE, function(bet) {
+    appState.sendAppState(session);
+  });  
 
   socket.on(Constants.SOCKET_EVENTS.BET_ADD, function(bet) {
     BetController.add(appState, session, bet);
@@ -45,7 +54,6 @@ io.of('/websocket').on('connection', function (socket) {
   });
 
   socket.on('disconnect', function () {
-    console.log('socket disconnect...', socket.id);
     appState.removePlayer(session);
   });
 

@@ -18,6 +18,18 @@ class App extends Component {
     };
 
     this.state.client.registerHandler(
+      Constants.SOCKET_EVENTS.APP_NEW_STATE,
+      payload => {
+        this.setState({
+          dice: new Dice(payload),
+          currentRollerId: payload.currentRollerId,
+          pointNumber: payload.pointNumber
+        });
+        this.addAction(payload);
+      }
+    );
+
+    this.state.client.registerHandler(
       Constants.SOCKET_EVENTS.DICE_ROLLED, 
       payload => {
         this.setState({ dice: new Dice(payload) });
@@ -94,11 +106,11 @@ class App extends Component {
       <div>
         <p>
             <select id="action-type" value={ this.state.actionType } onChange={ evt => this.setState({ actionType: evt.target.value}) }>
-                <option value={ Constants.SOCKET_EVENTS.DICE_ROLL }>dice.roll</option>
-                <option value={ Constants.SOCKET_EVENTS.BET_ADD }>bet.add</option>
-                <option value={ Constants.SOCKET_EVENTS.BET_REMOVE }>bet.remove</option>
-                <option value={ Constants.SOCKET_EVENTS.TABLE_JOIN }>table.join</option>
-                <option value={ Constants.SOCKET_EVENTS.TABLE_LEAVE }>table.leave</option>
+                <option value={ Constants.SOCKET_EVENTS.DICE_ROLL }>{Constants.SOCKET_EVENTS.DICE_ROLL}</option>
+                <option value={ Constants.SOCKET_EVENTS.BET_ADD }>{Constants.SOCKET_EVENTS.BET_ADD}</option>
+                <option value={ Constants.SOCKET_EVENTS.BET_REMOVE }>{Constants.SOCKET_EVENTS.BET_REMOVE}</option>
+                <option value={ Constants.SOCKET_EVENTS.TABLE_JOIN }>{Constants.SOCKET_EVENTS.TABLE_JOIN}</option>
+                <option value={ Constants.SOCKET_EVENTS.TABLE_LEAVE }>{Constants.SOCKET_EVENTS.TABLE_LEAVE}</option>
             </select>
             <input 
               id="action-payload" 

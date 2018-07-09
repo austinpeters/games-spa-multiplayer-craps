@@ -7,7 +7,7 @@ export default class AppController {
         this.currentRollerId = null;
         this.pointNumber = null;
         this.playerSessions = [];
-        this.currentDice = [];
+        this.currentDice = null;
     };
 
     isCurrentRoller(session) {
@@ -46,33 +46,40 @@ export default class AppController {
     };
 
     getCurrentDice () {return this.currentDice};
-    setCurrentDice(session, dice) {
+    setCurrentDice(dice, session = null) {
         this.currentDice = dice;
-        const payload = this.currentDice.serialize();
-        session.socket.emit(
-            Constants.SOCKET_EVENTS.DICE_ROLLED,
-            payload
-        );
-        session.socket.broadcast.emit(
-            Constants.SOCKET_EVENTS.DICE_ROLLED,
-            payload
-        );
+
+        // Temp until I figure out how to mock AppController the way I want.
+        if (session != null) {
+            const payload = this.currentDice.serialize();
+            session.socket.emit(
+                Constants.SOCKET_EVENTS.DICE_ROLLED,
+                payload
+            );
+            session.socket.broadcast.emit(
+                Constants.SOCKET_EVENTS.DICE_ROLLED,
+                payload
+            );
+        }
     };
 
     getPointNumber() {return this.pointNumber;};
     isPointOn() {return this.pointNumber !== null;};
-    setPointNumber(session, newPoint) {
+    setPointNumber(newPoint, session = null) {
         this.pointNumber = newPoint
-        const payload = {pointNumber: this.pointNumber};
 
-        session.socket.emit(
-            Constants.SOCKET_EVENTS.POINT_CHANGED,
-            payload
-        );
-        session.socket.broadcast.emit(
-            Constants.SOCKET_EVENTS.POINT_CHANGED,
-            payload
-        );
+        // Temp until I figure out how to mock AppController the way I want.
+        if (session != null) {
+            const payload = {pointNumber: this.pointNumber};
+            session.socket.emit(
+                Constants.SOCKET_EVENTS.POINT_CHANGED,
+                payload
+            );
+            session.socket.broadcast.emit(
+                Constants.SOCKET_EVENTS.POINT_CHANGED,
+                payload
+            );
+        }
     };
 
     addPlayer(session) {
@@ -82,11 +89,12 @@ export default class AppController {
         }
     };
     removePlayer(session) {
-        this.setNextRoller(session);
         ArrayUtils.remove(this.playerSessions, session);
+        if (session.client.id === this.currentRollerId) {
+            this.setNextRoller(session);
+        }
     };
     getPlayers() {return this.playersSockets;};
-
 
     broadcastAppState (session) {
         const appState = {
@@ -104,4 +112,15 @@ export default class AppController {
             appState
         );
     };
+    sendAppState(session) {
+        const appState = {
+            currentDice: this.currentDice,
+            currentRollerId: this.currentRollerId,
+            pointNumber: this.pointNumber
+        };
+        session.socket.emit(
+            Constants.SOCKET_EVENTS.APP_NEW_STATE,
+            appState
+        );
+    }
 };

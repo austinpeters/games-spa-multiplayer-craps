@@ -18,59 +18,60 @@ export const SOCKET_EVENTS = {
   TABLE_LEFT: 'table-left',
 }
 
-export const ODDS_PAYOUT = {
+export const PAYOUT_DEFAULT = 1;
+
+//Multipliers
+export const PAYOUT_ODDS = {
   COME: {
-    "2": 1,
-    "4": 1,
-    "5": 1,
-    "6": 1,
-    "8": 1,
-    "9": 1,
-    "10": 1    
+    4: 2,
+    5: (3/2),
+    6: (6/5),
+    8: (6/5),
+    9: (3/2),
+    10: 2  
   },
   DONT_COME: {
-    "2": 1,
-    "4": 1,
-    "5": 1,
-    "6": 1,
-    "8": 1,
-    "9": 1,
-    "10": 1
+    4: (1/2),
+    5: (2/3),
+    6: (5/6),
+    8: (5/6),
+    9: (2/3),
+    10: (1/2)
   },
   PASS: {
-    "2": 1,
-    "4": 1,
-    "5": 1,
-    "6": 1,
-    "8": 1,
-    "9": 1,
-    "10": 1
+    4: 2,
+    5: (3/2),
+    6: (6/5),
+    8: (6/5),
+    9: (3/2),
+    10: 2
   },
   DONT_PASS: {
-    "2": 1,
-    "4": 1,
-    "5": 1,
-    "6": 1,
-    "8": 1,
-    "9": 1,
-    "10": 1
+    4: (1/2),
+    5: (2/3),
+    6: (5/6),
+    8: (5/6),
+    9: (2/3),
+    10: (1/2)
   }
 };
 
-export const PLACED_PAYOUT = {
-  "2": 1,
-  "4": 1,
-  "5": 1,
-  "6": 1,
-  "8": 1,
-  "9": 1,
-  "10": 1
-};
+export const PAYOUT_HARDWAY_FOUR = 7;
+export const PAYOUT_HARDWAY_SIX = 9;
+export const PAYOUT_HARDWAY_EIGHT = 9;
+export const PAYOUT_HARDWAY_TEN = 7;
+
+export const PAYOUT_ONETIME_ANYSEVEN = 4;
+export const PAYOUT_ONETIME_ANYCRAPS = 7;
+export const PAYOUT_ONETIME_TWO = 30;
+export const PAYOUT_ONETIME_THREE = 15;
+export const PAYOUT_ONETIME_ELEVEN = 15;
+export const PAYOUT_ONETIME_TWELVE = 30;
+
+export const STARTING_CHIP_AMOUNT = 400;
 
 export const CRAPS_NUMBERS = [2, 3, 12];
 
 export const POINT_NUMBERS = [4, 5, 6, 8, 9, 10];
 
 export const FIELD_NUMBERS = [2, 3, 4, 9, 10, 11, 12];
-
-export const DEFAULT_PAYOUT = 1;
