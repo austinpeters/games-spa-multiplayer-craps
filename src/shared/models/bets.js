@@ -42,6 +42,24 @@ const HARDWAYS_LOSE_CONDITION = (appState, hardNumber) => {
     return result;
 };
 
+const POINT_WIN_CONDITION = (appState, pointNumber, comeBet) => {
+    const rolledDice = appState.getCurrentDice();
+    if (comeBet === true) {
+        return rolledDice.total() === pointNumber;
+    } else {
+        return rolledDice.total() === 7;
+    }
+};
+
+const POINT_LOSE_CONDITION = (appState, pointNumber, comeBet) => {
+    const rolledDice = appState.getCurrentDice();
+    if (comeBet === true) {
+        return rolledDice.total() === 7;
+    } else {
+        return rolledDice.total() === pointNumber;
+    }
+};
+
 export default class Bets {
 
     constructor() {
@@ -179,23 +197,95 @@ export default class Bets {
             },
 
             pointFour: {
-                come: {placedBet: 0, baseBet: 0, oddsBet: 0}, 
-                dontCome: {placedBet: 0, baseBet: 0, oddsBet: 0}},
+                come: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.COME[4],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 4, true),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 4, true),
+                }, 
+                dontCome: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.DONT_COME[4],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 4, false),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 4, false)
+                }},
             pointFive: {
-                come: {placedBet: 0, baseBet: 0, oddsBet: 0}, 
-                dontCome: {placedBet: 0, baseBet: 0, oddsBet: 0}},
+                come: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.COME[5],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 5, true),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 5, true)
+                }, 
+                dontCome: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.DONT_COME[5],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 5, false),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 5, false)
+                }},
             pointSix: {
-                come: {placedBet: 0, baseBet: 0, oddsBet: 0}, 
-                dontCome: {placedBet: 0, baseBet: 0, oddsBet: 0}},
+                come: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.COME[6],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 6, true),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 6, true)
+                }, 
+                dontCome: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.DONT_COME[6],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 6, false),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 6, false)
+                }},
             pointEight: {
-                come: {placedBet: 0, baseBet: 0, oddsBet: 0}, 
-                dontCome: {placedBet: 0, baseBet: 0, oddsBet: 0}},
+                come: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.COME[8],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 8, true),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 8, true)
+                }, 
+                dontCome: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.DONT_COME[8],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 8, false),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 8, false)
+                }},
             pointNine: {
-                come: {placedBet: 0, baseBet: 0, oddsBet: 0}, 
-                dontCome: {placedBet: 0, baseBet: 0, oddsBet: 0}},
+                come: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.COME[9],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 9, true),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 9, true)
+                }, 
+                dontCome: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.DONT_COME[9],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 9, false),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 9, false)
+                }},
             pointTen: {
-                come: {placedBet: 0, baseBet: 0, oddsBet: 0}, 
-                dontCome: {placedBet: 0, baseBet: 0, oddsBet: 0}},
+                come: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.COME[10],
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 10, true),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 10, true)
+                }, 
+                dontCome: {
+                    basePayout: () => Constants.PAYOUT_DEFAULT,
+                    oddsPayout: () => Constants.PAYOUT_ODDS.DONT_COME[10],
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
+                    winner: (appState) => POINT_WIN_CONDITION(appState, 10, false),
+                    loser: (appState) => POINT_LOSE_CONDITION(appState, 10, false)
+                }},
 
             hardwayFour: {
                 baseBet: 0,

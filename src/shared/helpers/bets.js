@@ -1,6 +1,16 @@
 import JSONPath from "jsonpath";
 import * as Constants from "../constants";
 
+const POINT_BET_PATTERNS = {
+    comeBase: /^\$\.point([A-Za-z]+)\.come\.baseBet$/,
+    comeOdds: /^\$\.point([A-Za-z]+)\.come\.oddsBet$/,
+    comePlaced: /^\$\.point([A-Za-z]+)\.come\.placedBet$/,
+
+    dontComeBase: /^\$\.point([A-Za-z]+)\.dontCome\.baseBet$/,
+    dontComeOdds: /^\$\.point([A-Za-z]+)\.dontCome\.oddsBet$/,
+    dontComePlaced: /^\$\.point([A-Za-z]+)\.dontCome\.oddsBet$/,
+};
+
 export const isValidBet = (appState, playerBets, bet) => {
 
     let isValid = false;
@@ -14,6 +24,25 @@ export const isValidBet = (appState, playerBets, bet) => {
     if (bet.action === "remove" && JSONPath.value(playerBets.getBets(), bet.typePath) < bet.value) {
         return false;
     }
+
+    if (bet.typePath.match(POINT_BET_PATTERNS.comePlaced)) {
+        const pointNumber = bet.typePath.match(POINT_BET_PATTERNS.comePlaced)[1];
+        return true;
+    }
+
+    if (bet.typePath.match(POINT_BET_PATTERNS.comeOdds)) {
+        const pointNumber = bet.typePath.match(POINT_BET_PATTERNS.comeOdds)[1];
+        if (playerBets.getBets()[`point${pointNumber}`].come.baseBet > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (bet.typePath.match(POINT_BET_PATTERNS.comeBase)) {
+        return false;        
+    }
+
 
     // Now that we know they have enough money, go on to checking other things.
     switch (bet.typePath) {

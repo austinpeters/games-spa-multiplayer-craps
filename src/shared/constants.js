@@ -75,3 +75,13 @@ export const CRAPS_NUMBERS = [2, 3, 12];
 export const POINT_NUMBERS = [4, 5, 6, 8, 9, 10];
 
 export const FIELD_NUMBERS = [2, 3, 4, 9, 10, 11, 12];
+
+export const NUMBERS_AS_WORDS_LOWERCASE = {
+  1: "one",  2: "two",  3: "three",  4: "four",  5: "five",  6: "six",
+  7: "seven",  8: "eight",  9: "nine",  10: "ten",  11: "eleven",  12: "twelve"
+};
+
+export const NUMBERS_AS_WORDS_CAPITALIZED = {
+  1: "One",  2: "Two",  3: "Three",  4: "Four",  5: "Five",  6: "Six",
+  7: "Seven",  8: "Eight",  9: "Nine",  10: "Ten",  11: "Eleven",  12: "Twelve"
+}
