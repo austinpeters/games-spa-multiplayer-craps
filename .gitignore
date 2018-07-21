@@ -6,6 +6,10 @@
 # production
 /build
 
+# Compiled React JS
+/public/assets/js/react-bundle.js
+/public/assets/js/react-bundle.js.map
+
 # misc
 Thumbs.db
 .DS_Store
