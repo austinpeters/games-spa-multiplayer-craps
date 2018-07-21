@@ -56,7 +56,7 @@ class App extends Component {
     this.clearActionHistory = this.clearActionHistory.bind(this);
     this.getActionHistory = this.getActionHistory.bind(this);
     this.addAction = this.addAction.bind(this);
-    this.performAcion = this.performAcion.bind(this);
+    this.performAction = this.performAction.bind(this);
 
     // Getters
     this.getCurrentRoller = this.getCurrentRoller.bind(this);
@@ -80,14 +80,20 @@ class App extends Component {
     return this.state.actionHistory.join("\n\n");
   }
 
-  performAcion() {
+  performAction() {
     let jsonObj = {}
     try {
       jsonObj = JSON.parse(this.state.actionPayload);
     } catch (e) {}
-    this.state.client.rollDice(
-      jsonObj
-    );
+    if (this.state.actionType === Constants.SOCKET_EVENTS.DICE_ROLL) {
+      this.state.client.rollDice(
+        jsonObj
+      );
+    } else if (this.state.actionType === Constants.SOCKET_EVENTS.BET_ADD) {
+      this.state.client.addBet(
+        jsonObj
+      );
+    }
   }
 
   getCurrentRoller() {
@@ -118,7 +124,7 @@ class App extends Component {
               size="60" 
               value={ this.state.actionPayload } onChange={ evt => this.setState({ actionPayload: evt.target.value })} 
             />
-            <input type="button" onClick={ this.performAcion } value="Perform Action" />
+            <input type="button" onClick={ this.performAction } value="Perform Action" />
         </p>
         <p>
             <span>current roller:</span> <input id="roller" value={ this.getCurrentRoller() } readOnly disabled size="16" />

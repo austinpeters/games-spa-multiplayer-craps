@@ -280,9 +280,9 @@ export default class Bets {
                     loser: (appState) => POINT_LOSE_CONDITION(appState, 10, true)
                 }, 
                 dontCome: {
+                    placedBet: 0, baseBet: 0, oddsBet: 0,
                     basePayout: () => Constants.PAYOUT_DEFAULT,
                     oddsPayout: () => Constants.PAYOUT_ODDS.DONT_COME[10],
-                    placedBet: 0, baseBet: 0, oddsBet: 0,
                     winner: (appState) => POINT_WIN_CONDITION(appState, 10, false),
                     loser: (appState) => POINT_LOSE_CONDITION(appState, 10, false)
                 }},
@@ -355,7 +355,7 @@ export default class Bets {
     }
 
     // Take chip value from 'free' chips and put into the designated bet.
-    addBet(appState, addBet) { 
+    add(appState, addBet) { 
         if (BetHelper.isValidBet(appState, this, addBet)) {
             // Add addBet.value to the this.bets path via addBet.type
             JSONPath.apply(
@@ -368,7 +368,7 @@ export default class Bets {
     };
 
     // Take chip value from designated bet type and put it into 'free' chips. 
-    removeBet(appState, removeBet) { 
+    remove(appState, removeBet) { 
         if (BetHelper.isValidBet(appState, this, removeBet)) {
             // Decrease removeBet.value from the this.bets path via removeBet.type
             JSONPath.apply(
@@ -382,7 +382,13 @@ export default class Bets {
 
     // Return a copy so the bets do not get accidently mutated.
     getBets() {
-        return Object.assign(this.bets);
+        return Object.assign(
+            {
+                freeChips: this.freeChips,
+                allChips: this.allChips
+            },
+            this.bets
+        );
     };
 
     // Used to determine the value of all chips.

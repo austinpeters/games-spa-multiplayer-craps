@@ -90,7 +90,60 @@ test ("Point numbers > Win payout correct, come line.", () => {
 
 });
 
+test ("Point numbers > Win payout correct, dont come line.", () => {
+    
+    Constants.POINT_NUMBERS.forEach ((pointNumber) => {
+        const appState = new AppController();
+        const pointWord = Constants.NUMBERS_AS_WORDS_CAPITALIZED[pointNumber];
+        const bets = new Bets();
+        const betAmount = 12;
+        const dontComeBet = {
+            value: betAmount,
+            typePath: `$.dontCome.baseBet`,
+            action: "add"
+        };
+        const pointOddsBet = {
+            value: betAmount,
+            typePath: `$.point${pointWord}.dontCome.oddsBet`,
+            action: "add"
+        }
 
-// Tests to add.... Dont Come tests
-// Test valid odds bet (only nominations of the payout ratio for the bet are allowed)
+        const dice = TestHelpers.rollDiceTotal(pointNumber);
+        
+        // Don't want to roll the point number and take the point off.
+        if (pointNumber === 4) {
+            appState.setPointNumber(5);
+        } else {
+            appState.setPointNumber(4);
+        }
+
+        bets.addBet(appState, dontComeBet);
+
+        // Roll to move come bet to the point.
+        appState.setCurrentDice(dice);
+        bets.update(appState);
+
+        // Add odds on the point bet.
+        bets.addBet(appState, pointOddsBet);
+
+        // Roll again, this time a seven to win.
+        appState.setCurrentDice(
+            TestHelpers.rollDiceTotal(7)
+        );
+        bets.update(appState);
+
+        // base bet (1:1) + whatever payout ratio for the true odds bet for the point we have.
+        const expectedWinnings = betAmount + (betAmount * Constants.PAYOUT_ODDS.DONT_COME[pointNumber]);
+
+        expect( bets.getBets()[`point${pointWord}`].dontCome.baseBet ).toBe( 0 );
+        expect( bets.getBets()[`point${pointWord}`].dontCome.oddsBet ).toBe( 0 );
+        expect( bets.getFreeChips() ).toBe( Constants.STARTING_CHIP_AMOUNT + expectedWinnings );
+
+
+    });
+
+});
+
+
+// Test valid odds bet (only denominations of the payout ratio for the bet are allowed)
 // Test direct placed bets.

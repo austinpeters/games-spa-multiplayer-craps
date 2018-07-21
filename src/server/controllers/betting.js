@@ -1,9 +1,11 @@
-export const add = (app, session, payload) => {
-    session.socket.broadcast.emit('bet.added', {"betAdded": session.username});
-    console.log(`Adding bet data: ${JSON.stringify(payload)}`);
+export const add = (appState, player, bet) => {
+    player.addBet(appState, bet);
+    appState.broadcastAppState(player);
+    console.log(`Adding bet data: ${JSON.stringify(bet)}`);
 }
 
-export const remove = (app, session, payload) => {
-    session.socket.broadcast.emit('bet.removed', {"betRemoved": session.username});
-    console.log(`Removing bet data: ${JSON.stringify(payload)}`);
+export const remove = (appState, player, bet) => {
+    player.removeBet(appState, bet);
+    appState.broadcastAppState(player);
+    console.log(`Removing bet data: ${JSON.stringify(bet)}`);
 }

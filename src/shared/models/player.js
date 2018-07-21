@@ -2,9 +2,8 @@ import Bets from './bets';
 export default class Player {
     constructor(playerData = {bets: null, displayName: null, socket: null}) {
         if (playerData && typeof playerData === "string") {
-            let playerObj = {};
             try {
-                playerObj = playerData.parse(playerData);
+                const playerObj = playerData.parse(playerData);
                 this.displayName = playerObj.displayName;
                 this.bets = new Bets(this);
                 this.socket = null;
@@ -17,7 +16,7 @@ export default class Player {
         } else if (playerData && typeof playerData === "object") {
             this.bets = new Bets(this);
             this.displayName = playerData.displayName;
-            this.socket = socket;
+            this.socket = playerData.socket;
         } else {
             this.displayName = null;
             this.bets = new Bets(this);
@@ -33,6 +32,7 @@ export default class Player {
     getBets() { return this.bets }
     addBet(appState, bet) { this.bets.add(appState, bet) }
     removeBet(appState, bet) { this.bets.remove(appState, bet) }
+    update(appState) { this.bets.update(appState) }
 
     getSocket() { return this.socket }
 
@@ -40,6 +40,14 @@ export default class Player {
         return playerData.stringify({
             displayName: this.displayName
         });
+    }
+
+    getSimpleObject() {
+        return {
+            displayName: this.displayName,
+            id: this.socket.client.id,
+            bets: this.bets.getBets()
+        }
     }
 
 }

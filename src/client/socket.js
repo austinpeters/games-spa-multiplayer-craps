@@ -13,10 +13,17 @@ export default function () {
     }
 
     function rollDice(obj) {
-        socket.emit(
-            Constants.SOCKET_EVENTS.DICE_ROLL,
-            obj
-        );
+      socket.emit(
+          Constants.SOCKET_EVENTS.DICE_ROLL,
+          obj
+      );
+    }
+
+    function addBet(obj) {
+      socket.emit(
+        Constants.SOCKET_EVENTS.BET_ADD,
+        obj
+      )
     }
   
     socket.on('error', function (err) {
@@ -27,7 +34,8 @@ export default function () {
     return {
       registerHandler,
       unregisterHandler,
-      rollDice
+      rollDice,
+      addBet
     }
   }
 

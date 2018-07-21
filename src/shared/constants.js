@@ -85,3 +85,8 @@ export const NUMBERS_AS_WORDS_CAPITALIZED = {
   1: "One",  2: "Two",  3: "Three",  4: "Four",  5: "Five",  6: "Six",
   7: "Seven",  8: "Eight",  9: "Nine",  10: "Ten",  11: "Eleven",  12: "Twelve"
 }
+
+export const WORDS_AS_NUMBERS = {
+  "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
+  "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12
+}
