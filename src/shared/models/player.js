@@ -46,7 +46,9 @@ export default class Player {
         return {
             displayName: this.displayName,
             id: this.socket.client.id,
-            bets: this.bets.getBets()
+            bets: this.bets.getBets(),
+            freeChips: this.bets.getFreeChips(),
+            allChips: this.bets.getAllChips()
         }
     }
 

@@ -117,7 +117,8 @@ export default class AppController {
         const appState = {
             currentDice: this.currentDice,
             currentRollerId: this.currentRollerId,
-            pointNumber: this.pointNumber
+            pointNumber: this.pointNumber,
+            players: this.players.map(player => player.getSimpleObject())
         };
         player.getSocket().emit(
             Constants.SOCKET_EVENTS.APP_NEW_STATE,

@@ -25,6 +25,17 @@ export default function () {
         obj
       )
     }
+
+    function removeBet(obj) {
+      socket.emit(
+        Constants.SOCKET_EVENTS.BET_REMOVE,
+        obj
+      )
+    }
+
+    function getId() {
+      return socket.id;
+    }
   
     socket.on('error', function (err) {
       console.log('received socket error:')
@@ -35,7 +46,9 @@ export default function () {
       registerHandler,
       unregisterHandler,
       rollDice,
-      addBet
+      addBet,
+      removeBet,
+      getId
     }
   }
 

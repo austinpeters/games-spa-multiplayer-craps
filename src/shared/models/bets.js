@@ -1,6 +1,6 @@
 import JSONPath from 'jsonpath';
 
-import * as BetHelper from '../helpers/bets';
+import * as BetHelper from '../helpers/BetHelper';
 import * as Constants from '../constants';
 
 const LINE_COME_BASE_PATHS = {
@@ -382,13 +382,7 @@ export default class Bets {
 
     // Return a copy so the bets do not get accidently mutated.
     getBets() {
-        return Object.assign(
-            {
-                freeChips: this.freeChips,
-                allChips: this.allChips
-            },
-            this.bets
-        );
+        return Object.assign({}, this.bets);
     };
 
     // Used to determine the value of all chips.

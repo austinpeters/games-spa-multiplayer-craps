@@ -68,12 +68,75 @@ export const PAYOUT_ONETIME_THREE = 15;
 export const PAYOUT_ONETIME_ELEVEN = 15;
 export const PAYOUT_ONETIME_TWELVE = 30;
 
+export const BET_TYPE_PATHS = [
+  "$.pass.baseBet",
+  "$.pass.oddsBet",
+  "$.dontPass.baseBet",
+  "$.dontPass.oddsBet",
+  "$.come.baseBet",
+  "$.dontCome.baseBet",
+  "$.field.baseBet",
+
+  "$.pointFour.come.baseBet",
+  "$.pointFour.come.oddsBet",
+  "$.pointFour.come.placedBet",
+  "$.pointFour.dontCome.baseBet",
+  "$.pointFour.dontCome.oddsBet",
+  "$.pointFour.dontCome.placedBet",
+
+  "$.pointFive.come.baseBet",
+  "$.pointFive.come.oddsBet",
+  "$.pointFive.come.placedBet",
+  "$.pointFive.dontCome.baseBet",
+  "$.pointFive.dontCome.oddsBet",
+  "$.pointFive.dontCome.placedBet",
+
+  "$.pointSix.come.baseBet",
+  "$.pointSix.come.oddsBet",
+  "$.pointSix.come.placedBet",
+  "$.pointSix.dontCome.baseBet",
+  "$.pointSix.dontCome.oddsBet",
+  "$.pointSix.dontCome.placedBet",
+
+  "$.pointEight.come.baseBet",
+  "$.pointEight.come.oddsBet",
+  "$.pointEight.come.placedBet",
+  "$.pointEight.dontCome.baseBet",
+  "$.pointEight.dontCome.oddsBet",
+  "$.pointEight.dontCome.placedBet",
+
+  "$.pointNine.come.baseBet",
+  "$.pointNine.come.oddsBet",
+  "$.pointNine.come.placedBet",
+  "$.pointNine.dontCome.baseBet",
+  "$.pointNine.dontCome.oddsBet",
+  "$.pointNine.dontCome.placedBet",
+
+  "$.pointTen.come.baseBet",
+  "$.pointTen.come.oddsBet",
+  "$.pointTen.come.placedBet",
+  "$.pointTen.dontCome.baseBet",
+  "$.pointTen.dontCome.oddsBet",
+  "$.pointTen.dontCome.placedBet",
+
+  "$.hardwayFour.baseBet",
+  "$.hardwaySix.baseBet",
+  "$.hardwayEight.baseBet",
+  "$.hardwayTen.baseBet",
+
+  "$.onerollAnySeven.baseBet",
+  "$.onerollTwo.baseBet",
+  "$.onerollThree.baseBet",
+  "$.onerollTwelve.baseBet",
+  "$.onerollEleven.baseBet",
+  "$.onerollCraps.baseBet",
+
+];
+
 export const STARTING_CHIP_AMOUNT = 400;
 
 export const CRAPS_NUMBERS = [2, 3, 12];
-
 export const POINT_NUMBERS = [4, 5, 6, 8, 9, 10];
-
 export const FIELD_NUMBERS = [2, 3, 4, 9, 10, 11, 12];
 
 export const NUMBERS_AS_WORDS_LOWERCASE = {
