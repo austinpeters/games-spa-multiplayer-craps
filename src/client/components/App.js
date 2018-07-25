@@ -24,6 +24,8 @@ class App extends Component {
       myBets: {},
       dice: new Dice(),
       currentRollerId: null,
+      currentPlayers: [],
+      lastAction: "",
       pointNumber: null,
       client: socket()
     };
@@ -32,6 +34,10 @@ class App extends Component {
       Constants.SOCKET_EVENTS.APP_NEW_STATE,
       payload => {
         if (payload.players) {
+          this.setState({
+            currentPlayers: payload.players.map(player => player.id)
+          });
+
           const me = payload.players
             .filter(player => player.id === this.state.client.getId())[0];
 
@@ -46,7 +52,7 @@ class App extends Component {
 
         this.setState({
           dice: new Dice(payload.currentDice),
-          currentRollerId: payload.currentRollerId,
+          currentRollerId: payload.currentRollerId.replace("/websocket#", ""),
           pointNumber: payload.pointNumber,
         });
 
@@ -80,11 +86,13 @@ class App extends Component {
 
     this.clearActionHistory = this.clearActionHistory.bind(this);
     this.getActionHistory = this.getActionHistory.bind(this);
+    this.getLastAction = this.getLastAction.bind(this);
     this.addAction = this.addAction.bind(this);
     this.performAction = this.performAction.bind(this);
 
     // Getters
     this.getCurrentRoller = this.getCurrentRoller.bind(this);
+    this.getActivePlayers = this.getActivePlayers.bind(this);
     this.getDiceTotal = this.getDiceTotal.bind(this);
     this.getPoint = this.getPoint.bind(this);
     this.freeChips = this.freeChips.bind(this);
@@ -93,18 +101,24 @@ class App extends Component {
   }
 
   addAction(payload) {
-    const updatedHistory = this.state.actionHistory.concat(
-      JSON.stringify(payload)
-    );
-    this.setState( {actionHistory: updatedHistory} );
+    this.setState({ lastAction: JSON.stringify(payload, 2) });
+    //this.setState( {actionHistory: updatedHistory} );
   }
 
   clearActionHistory() {
     this.setState({ actionHistory: []});
   }
 
+  getActivePlayers() {
+    return this.state.currentPlayers.join("\n\n");
+  }
+
   getActionHistory() {
     return this.state.actionHistory.join("\n\n");
+  }
+
+  getLastAction() {
+    return this.state.lastAction;
   }
 
   performAction() {
@@ -115,18 +129,25 @@ class App extends Component {
     } else if (this.state.actionType === Constants.SOCKET_EVENTS.BET_ADD) {
       this.state.client.addBet({
         typePath: this.state.betType,
-        value: parseInt(this.state.betValue)
+        value: parseInt(this.state.betValue),
+        action: "add"
       });
     } else if (this.state.actionType === Constants.SOCKET_EVENTS.BET_REMOVE) {
       this.state.client.removeBet({
         typePath: this.state.betType,
-        value: parseInt(this.state.betValue)
+        value: parseInt(this.state.betValue),
+        action: "remove"
       });
     }
   }
 
   getCurrentRoller() {
-    return this.state.currentRollerId === null ? "" : this.state.currentRollerId;
+    let result = "";
+    if (this.state.currentRollerId !== null) {
+      result = (this.state.currentRollerId === this.state.client.getId()) ? 
+        "me" : this.state.currentRollerId;
+    }
+    return result;
   }
 
   getPoint() {
@@ -175,7 +196,7 @@ class App extends Component {
           {betValueInput}
         </p>
         <p>
-          <span>current roller:</span> <input id="roller" value={ this.getCurrentRoller() } readOnly disabled size="16" />
+          <span>current roller: </span> <input id="roller" value={ this.getCurrentRoller() } readOnly disabled size="16" />
           <span>current roll: </span> <input id="dice" value={ this.getDiceTotal() } readOnly disabled size="4" />
           <span>current point: </span> <input id="point" value={ this.getPoint() } readOnly disabled size="4" />
         </p>
@@ -184,9 +205,13 @@ class App extends Component {
           <span>my free chips: </span> <input id="chips-free" value={ this.freeChips() } readOnly disabled size="6" />
         </p>
         <p>
-          <textarea id="output" cols="50" rows="30" value={ this.getActionHistory() } disabled readOnly />
+          last server response: <br />
+          <textarea id="output" cols="28" rows="15" value={ this.getLastAction() } disabled readOnly />
         </p>
-        <input type="button" onClick={ this.clearActionHistory } value="Clear Output" />
+        <p>
+          current connected players: <br />
+          <textarea id="output" cols="28" rows="15" value={ this.getActivePlayers() } disabled readOnly />
+        </p>
       </div>
     );
   }
