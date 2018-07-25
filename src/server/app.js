@@ -25,7 +25,6 @@ io.of('/websocket').on('connection', function (socket) {
   });
 
   appState.addPlayer(player);
-  appState.sendAppState(player);
 
   socket.on(Constants.SOCKET_EVENTS.APP_GET_STATE, function(bet) {
     appState.sendAppState(player);
