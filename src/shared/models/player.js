@@ -27,7 +27,11 @@ export default class Player {
     getFreeChips() { return this.bets.freeChips() }
 
     getDisplayName() { return this.displayName }
-    setDisplayName(displayName) { this.displayName = displayName }
+    setDisplayName(displayName) { 
+        if (this.displayName === null) {
+            this.displayName = displayName;
+        }
+    }
 
     getBets() { return this.bets }
     addBet(appState, bet) { this.bets.add(appState, bet) }

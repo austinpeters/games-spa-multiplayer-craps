@@ -19,6 +19,7 @@ class App extends Component {
       betValue: 0,
       betType: "$.pass.baseBet",
       betAction: "add",
+      freeInputValue: "",
       freeChips: 0,
       allChips: 0,
       myBets: {},
@@ -138,6 +139,10 @@ class App extends Component {
         value: parseInt(this.state.betValue),
         action: "remove"
       });
+    } else if (this.state.actionType === Constants.SOCKET_EVENTS.NAME_SET) {
+      this.state.client.nameSet({
+        name: this.state.freeInputValue
+      });
     }
   }
 
@@ -166,7 +171,7 @@ class App extends Component {
   render() {
     let betTypeInput = null;
     let betValueInput = null;
-    let betActionInput = null;
+    let freeTextInput = null;
 
     if ([Constants.SOCKET_EVENTS.BET_ADD, Constants.SOCKET_EVENTS.BET_REMOVE].includes(this.state.actionType)) {
       betTypeInput = <select 
@@ -182,6 +187,14 @@ class App extends Component {
         onChange={evt => this.setState({ betValue: evt.target.value }) } 
       />
     }
+    if (Constants.SOCKET_EVENTS.NAME_SET === this.state.actionType) {
+      freeTextInput = <input
+        type="text"
+        size="8"
+        value={this.state.freeInputValue}
+        onChange={ evt => this.setState({ freeInputValue: evt.target.value }) }
+      />
+    }
 
     return (
       <div>
@@ -194,6 +207,7 @@ class App extends Component {
           </select>
           {betTypeInput}
           {betValueInput}
+          {freeTextInput}
         </p>
         <p>
           <span>current roller: </span> <input id="roller" value={ this.getCurrentRoller() } readOnly disabled size="16" />

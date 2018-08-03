@@ -6,6 +6,7 @@ export const SOCKET_EVENTS = {
   DICE_ROLL: 'dice-roll',
   TABLE_JOIN: 'table-join',
   TABLE_LEAVE: 'table-leave',
+  NAME_SET: 'name-set',
   
   // Events sent from the server
   APP_NEW_STATE: 'app-newState',

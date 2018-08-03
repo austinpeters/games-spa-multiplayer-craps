@@ -20,15 +20,22 @@ io.of('/websocket').on('connection', function (socket) {
 
   const player = new Player({
     socket,
-    displayName: '',
+    displayName: null,
     bets: new Bets()
   });
 
   appState.addPlayer(player);
 
+  socket.on(Constants.SOCKET_EVENTS.NAME_SET, function(nameObj) {
+    if (player.getDisplayName() === null && typeof nameObj.name === "string") {
+      player.setDisplayName(nameObj.name);
+      appState.broadcastAppState();
+    }
+  });  
+
   socket.on(Constants.SOCKET_EVENTS.APP_GET_STATE, function(bet) {
     appState.sendAppState(player);
-  });  
+  });
 
   socket.on(Constants.SOCKET_EVENTS.BET_ADD, function(bet) {
     BetController.add(appState, player, bet);

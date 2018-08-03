@@ -33,6 +33,13 @@ export default function () {
       )
     }
 
+    function setName(obj) {
+      socket.emit(
+        Constants.SOCKET_EVENTS.NAME_SET,
+        obj
+      )
+    }
+
     function getId() {
       return socket.id;
     }
@@ -48,6 +55,7 @@ export default function () {
       rollDice,
       addBet,
       removeBet,
+      setName,
       getId
     }
   }
