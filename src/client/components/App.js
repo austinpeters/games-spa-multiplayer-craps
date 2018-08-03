@@ -140,7 +140,7 @@ class App extends Component {
         action: "remove"
       });
     } else if (this.state.actionType === Constants.SOCKET_EVENTS.NAME_SET) {
-      this.state.client.nameSet({
+      this.state.client.setName({
         name: this.state.freeInputValue
       });
     }
