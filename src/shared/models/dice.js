@@ -1,12 +1,15 @@
 export default class Dice {
-    constructor(json) {
-        if (json) {
+    constructor(dice) {
+        if (dice) {
             let diceObj = {};
-            try {
-                diceObj = JSON.parse(json);
+            if (typeof dice === "string") {
+                diceObj = JSON.parse(dice);
                 this.dieOne = diceObj.dice.dieOne;
                 this.dieTwo = diceObj.dice.dieTwo;
-            } catch (e) {
+            } else if (typeof dice === "object") {
+                this.dieOne = dice.dieOne;
+                this.dieTwo = dice.dieTwo;
+            } else {
                 // Invalid JSON passed in.
                 this.dieOne = null;
                 this.dieTwo = null;

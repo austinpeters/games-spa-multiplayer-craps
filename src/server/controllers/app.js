@@ -87,37 +87,44 @@ export default class AppController {
         if (this.players.length === 1) {
             this.setCurrentRoller(player);
         }
+        this.broadcastAppState();
     };
     removePlayer(player) {
         ArrayUtils.remove(this.players, player);
         if (player.getSocket().client.id === this.currentRollerId) {
             this.setNextRoller(player);
         }
+        this.broadcastAppState();
     };
     getPlayers() {return this.players;};
 
-    broadcastAppState (player) {
+    broadcastAppState () {
         const appState = {
             currentDice: this.currentDice,
             currentRollerId: this.currentRollerId,
             pointNumber: this.pointNumber,
             players: this.players.map(player => player.getSimpleObject())
         };
-        
-        player.getSocket().emit(
-            Constants.SOCKET_EVENTS.APP_NEW_STATE,
-            appState
-        );
-        player.getSocket().broadcast.emit(
-            Constants.SOCKET_EVENTS.APP_NEW_STATE,
-            appState
-        );
+
+        const playerSocket = ArrayUtils.first(this.players);
+
+        if (playerSocket) {
+            playerSocket.getSocket().emit(
+                Constants.SOCKET_EVENTS.APP_NEW_STATE,
+                appState
+            );
+            playerSocket.getSocket().broadcast.emit(
+                Constants.SOCKET_EVENTS.APP_NEW_STATE,
+                appState
+            );
+        }
     };
     sendAppState(player) {
         const appState = {
             currentDice: this.currentDice,
             currentRollerId: this.currentRollerId,
-            pointNumber: this.pointNumber
+            pointNumber: this.pointNumber,
+            players: this.players.map(player => player.getSimpleObject())
         };
         player.getSocket().emit(
             Constants.SOCKET_EVENTS.APP_NEW_STATE,

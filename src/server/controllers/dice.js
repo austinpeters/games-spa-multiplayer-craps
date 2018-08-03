@@ -24,7 +24,7 @@ export const roll = (appState, player) => {
             appState.setNextRoller(player);
         }
 
-        appState.broadcastAppState(player);
+        appState.broadcastAppState();
 
     } else {
         player.getSocket().emit('dice.noChange', {"message": "You're not the current roller."});
