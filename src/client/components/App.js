@@ -204,6 +204,7 @@ class App extends Component {
               <option value={ Constants.SOCKET_EVENTS.DICE_ROLL }>{Constants.SOCKET_EVENTS.DICE_ROLL}</option>
               <option value={ Constants.SOCKET_EVENTS.BET_ADD }>{Constants.SOCKET_EVENTS.BET_ADD}</option>
               <option value={ Constants.SOCKET_EVENTS.BET_REMOVE }>{Constants.SOCKET_EVENTS.BET_REMOVE}</option>
+              <option value={ Constants.SOCKET_EVENTS.NAME_SET }>{Constants.SOCKET_EVENTS.NAME_SET}</option>
           </select>
           {betTypeInput}
           {betValueInput}
