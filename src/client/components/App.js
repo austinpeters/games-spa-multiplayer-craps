@@ -35,8 +35,12 @@ class App extends Component {
       Constants.SOCKET_EVENTS.APP_NEW_STATE,
       payload => {
         if (payload.players) {
+          // Set currentPlayer to their displayName values *or* their ID
+          // if they do not have a displayName set yet.
           this.setState({
-            currentPlayers: payload.players.map(player => player.id)
+            currentPlayers: payload.players.map(player => 
+              player.displayName !== null ? player.displayName : player.id
+            )
           });
 
           const me = payload.players
