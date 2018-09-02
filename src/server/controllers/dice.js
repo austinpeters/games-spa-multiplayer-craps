@@ -3,7 +3,7 @@ import Dice from '../../shared/models/dice';
 
 export const roll = (appState, player) => {
     
-    if (appState.isCurrentRoller(player)) {
+    if (appState.isCurrentRoller(player) && player.hasValidShooterBet()) {
         const dice = new Dice();
         dice.roll();
 
@@ -26,7 +26,11 @@ export const roll = (appState, player) => {
 
         appState.broadcastAppState();
 
-    } else {
-        player.getSocket().emit('dice.noChange', {"message": "You're not the current roller."});
+    } else  {
+        let msg = "You need a base bet either for the pass line or don't pass line.";
+        if (appState.isCurrentRoller(player) === false) {
+            const msg = "You're not the current roller.";
+        }
+        player.getSocket().emit('dice.noChange', {"message": msg});
     }
 }

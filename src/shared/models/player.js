@@ -56,4 +56,8 @@ export default class Player {
         }
     }
 
+    hasValidShooterBet() {
+        return this.bets.getBets().pass.baseBet > 0 || this.bets.getBets().dontPass.baseBet > 0;
+    }
+
 }
