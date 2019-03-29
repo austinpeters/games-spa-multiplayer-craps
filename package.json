@@ -11,7 +11,7 @@
     "jsonpath": "^1.0.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.1",
-    "react-scripts": "^1.1.4",
+    "react-scripts": "^2.1.8",
     "socketio": "^1.0.0"
   },
   "devDependencies": {
@@ -20,11 +20,11 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babelify": "^8.0.0",
-    "browserify": "^16.2.2",
+    "browserify": "^16.2.3",
     "minify": "^3.0.5",
     "minifyify": "^7.3.5",
     "react-app-rewired": "^1.5.2",
-    "watchify": "^3.11.0",
+    "watchify": "^3.11.1",
     "webpack-bundle-analyzer": "^2.13.1"
   },
   "scripts": {
