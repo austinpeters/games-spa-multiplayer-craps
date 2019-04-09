@@ -16,6 +16,9 @@ COPY . /app
 # Running tests
 # RUN npm test
 
+# Build
+RUN npm run build && cp -rp ./dist /tmp/dist
+
 FROM node AS runner
 
 EXPOSE 3000
@@ -23,8 +26,9 @@ WORKDIR /app
 
 # Adding production dependencies to image
 COPY --from=builder /tmp/node_modules /app/node_modules
+COPY --from=builder /tmp/dist /app/dist
 
 # Copying application code
-COPY . /app
+COPY package.json /app/package.json
 
 CMD npm start

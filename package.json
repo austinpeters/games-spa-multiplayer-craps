@@ -11,7 +11,7 @@
     "jsonpath": "^1.0.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.1",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^1.1.4",
     "socketio": "^1.0.0"
   },
   "devDependencies": {
@@ -20,16 +20,17 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babelify": "^8.0.0",
-    "browserify": "^16.2.3",
+    "browserify": "^16.2.2",
     "minify": "^3.0.5",
     "minifyify": "^7.3.5",
     "react-app-rewired": "^1.5.2",
-    "watchify": "^3.11.1",
+    "watchify": "^3.11.0",
     "webpack-bundle-analyzer": "^2.13.1"
   },
   "scripts": {
     "react-build": "browserify ./src/client/index.js -d -p [minifyify --map public/assets/js/react-bundle.js.map --output public/assets/js/react-bundle.js.map] > public/assets/js/react-bundle.js",
-    "start": "babel-node ./src/server/app.js --presets es2015,stage-2",
+    "build": "npm run react-build && babel src/shared -d dist/shared --presets es2015,stage-2 && babel src/server -d dist/server --presets es2015,stage-2 && cp -rp public dist/public",
+    "start": "node ./dist/server/app.js",
     "test": "react-scripts test --env=jsdom",
     "debug": "node --debug-brk --inspect ./node_modules/.bin/jest -i"
   },
