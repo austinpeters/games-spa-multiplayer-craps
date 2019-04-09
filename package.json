@@ -29,7 +29,7 @@
   },
   "scripts": {
     "react-build": "browserify ./src/client/index.js -d -p [minifyify --map public/assets/js/react-bundle.js.map --output public/assets/js/react-bundle.js.map] > public/assets/js/react-bundle.js",
-    "build": "npm run react-build && babel src/shared -d dist/shared --presets es2015,stage-2 && babel src/server -d dist/server --presets es2015,stage-2 && cp -rp public dist/public",
+    "build": "npm run react-build && babel src/shared -d dist/shared --presets es2015,stage-2 && babel src/server -d dist/server --presets es2015,stage-2",
     "start": "node ./dist/server/app.js",
     "test": "react-scripts test --env=jsdom",
     "debug": "node --debug-brk --inspect ./node_modules/.bin/jest -i"

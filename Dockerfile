@@ -20,7 +20,7 @@ RUN npm install
 # RUN npm test
 
 # Build
-RUN npm run build && cp -rp ./dist /tmp/dist
+RUN npm run build && cp -rp ./dist /tmp/dist && cp -rp ./public /tmp/public
 
 FROM node AS runner
 
@@ -30,6 +30,7 @@ WORKDIR /app
 # Adding production dependencies to image
 COPY --from=builder /tmp/node_modules /app/node_modules
 COPY --from=builder /tmp/dist /app/dist
+COPY --from=builder /tmp/public /app/public
 
 # Copying application code
 COPY package.json /app/package.json
