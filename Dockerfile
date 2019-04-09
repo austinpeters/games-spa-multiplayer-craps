@@ -3,6 +3,9 @@ FROM node:8.0-alpine AS builder
 WORKDIR /app
 
 COPY package.json /app
+COPY package-lock.json /app
+COPY public/ /app/public
+COPY src/ /app/src
 
 # Creating tar of productions dependencies
 RUN npm install --production && cp -rp ./node_modules /tmp/node_modules
@@ -11,7 +14,7 @@ RUN npm install --production && cp -rp ./node_modules /tmp/node_modules
 RUN npm install
 
 # Copying application code
-COPY . /app
+# COPY . /app
 
 # Running tests
 # RUN npm test
